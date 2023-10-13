@@ -22,16 +22,41 @@ CREATE TABLE Cliente (
     cpf VARCHAR(14),
     email VARCHAR(30),
     redeSocial VARCHAR(30),
-    id_fichaAnamnese INT NOT NULL CONSTRAINT fk_cli_ficha REFERENCES fichaAnamnese(id_fichaAnamnese)
+    id_ficha INT NOT NULL
 );
 
-CREATE TABLE telefone_cliente(
+
+CREATE TABLE FichaAnamnese (
+  id_fichaAnamnese INT(11) NOT NULL PRIMARY KEY,
+  assinatura BOOLEAN NOT NULL,
+  id_colaborador INT(11) NOT NULL,
+  );
+
+CREATE TABLE Alergias (
+id INT NOT NULL PRIMARY KEY,
+nome VARCHAR(45) NOT NULL,
+descricao VARCHAR(45) NOT NULL,
+id_ficha INT NOT NULL);
+
+CREATE TABLE Medicacoes (
+id INT NOT NULL PRIMARY KEY,
+nome VARCHAR(45) NOT NULL,
+descricao VARCHAR(45) NOT NULL,
+id_ficha INT NOT NULL);
+
+CREATE TABLE Doencas (
+id INT NOT NULL PRIMARY KEY,
+nome VARCHAR(45) NOT NULL,
+descricao VARCHAR(45) NOT NULL,
+id_ficha INT NOT NULL);
+
+CREATE TABLE Telefone_Cliente(
     id INTEGER PRIMARY KEY,
     numero VARCHAR(13),
     fk_id_cliente
 );
 
-CREATE TABLE telefone_colaborador(
+CREATE TABLE Telefone_Colaborador(
     id INTEGER PRIMARY KEY,
     numero VARCHAR(13)
     fk_id_colaborador
@@ -59,6 +84,11 @@ CREATE TABLE Material (
 ALTER TABLE Administrador ADD CONSTRAINT FK_Administrador_2
     FOREIGN KEY (fpk_Administrador)
     REFERENCES Colaborador (id_colaborador)
+    ON DELETE CASCADE;
+
+ALTER TABLE cliente ADD CONSTRAINT FK_cli_ficha
+    FOREIGN KEY (id_ficha)
+    REFERENCES fichaAnamnese (id_fichaAnamnese)
     ON DELETE CASCADE;
  
 ALTER TABLE Tatuador ADD CONSTRAINT FK_Tatuador_2
@@ -95,60 +125,22 @@ ALTER TABLE telefone_cliente ADD CONSTRAINT fk_cliente_telefone
 FOREIGN KEY (fk_id_cliente) REFERENCES cliente(id_cliente)
 ON DELETE CASCADE;
 
-ALTER TABLE telefone_colabirador ADD CONSTRAINT fk_colaborador_telefone
+ALTER TABLE telefone_colaborador ADD CONSTRAINT fk_colaborador_telefone
 FOREIGN KEY (fk_id_colaborador) REFERENCES colaborador(id_colaborador)
 ON DELETE CASCADE;
 
 
+ALTER TABLE ADD CONSTRAINT fk_alergias_ficha
+FOREIGN KEY (id_ficha)
+REFERENCES FichaAnamnese (id_fichaAnamnese)
+ON DELETE CASCADE;
 
-CREATE TABLE fichaAnamnese (
-  id_fichaAnamnese INT(11) NOT NULL PRIMARY KEY,
-  assinatura TINYINT(4) NOT NULL,
-  id_colaborador INT(11) NOT NULL,
-  );
+ALTER TABLE ADD CONSTRAINT fk_medicacoes_ficha
+FOREIGN KEY (id_ficha)
+REFERENCES FichaAnamnese (id_fichaAnamnese)
+ON DELETE CASCADE;
 
-
-CREATE TABLE IF NOT EXISTS `pi_tabela_cliente`.`alergias` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `nome` VARCHAR(45) NOT NULL,
-  `descricao` VARCHAR(45) NOT NULL,
-  `id_ficha_anamnese` INT(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_alergias_1_idx` (`id_ficha_anamnese` ASC) VISIBLE,
-  CONSTRAINT `fk_alergias_1`
-    FOREIGN KEY (`id_ficha_anamnese`)
-    REFERENCES `pi_tabela_cliente`.`fichaAnamnese` (`idfichaAnamnese`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
-
-CREATE TABLE IF NOT EXISTS `pi_tabela_cliente`.`medicacoes` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `nome` VARCHAR(45) NOT NULL,
-  `descricao` VARCHAR(45) NOT NULL,
-  `id_ficha_anamnese` INT(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_medicacoes_1_idx` (`id_ficha_anamnese` ASC) VISIBLE,
-  CONSTRAINT `fk_medicacoes_1`
-    FOREIGN KEY (`id_ficha_anamnese`)
-    REFERENCES `pi_tabela_cliente`.`fichaAnamnese` (`idfichaAnamnese`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
-
-CREATE TABLE IF NOT EXISTS `pi_tabela_cliente`.`doencas` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `nome` VARCHAR(45) NOT NULL,
-  `descricao` VARCHAR(45) NOT NULL,
-  `id_ficha_anamnese` INT(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_doencas_1_idx` (`id_ficha_anamnese` ASC) VISIBLE,
-  CONSTRAINT `fk_doencas_1`
-    FOREIGN KEY (`id_ficha_anamnese`)
-    REFERENCES `pi_tabela_cliente`.`fichaAnamnese` (`idfichaAnamnese`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+ALTER TABLE ADD CONSTRAINT fk_doencas_ficha
+FOREIGN KEY (id_ficha)
+REFERENCES FichaAnamnese (id_fichaAnamnese)
+ON DELETE CASCADE;
