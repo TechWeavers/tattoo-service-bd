@@ -1,15 +1,15 @@
 /* tattoo-service-logico: */
 
 CREATE TABLE Colaborador (
-    id_colaborador INTEGER PRIMARY KEY,
-    nome VARCHAR(30),
-    cpf VARCHAR(14),
-    email VARCHAR(30),
-    redeSocial VARCHAR(30)
+    id_colaborador INTEGER PRIMARY KEY ,
+    nome VARCHAR(30) NOT NULL,
+    cpf VARCHAR(14) NOT NULL,
+    email VARCHAR(30) NOT NULL,
+    redeSocial VARCHAR(30) NOT NULL
 );
 
 CREATE TABLE Administrador (
-    fpk_Administrador INTEGER PRIMARY KEY
+    fpk_Administrador INTEGER PRIMARY
 );
 
 CREATE TABLE Tatuador (
@@ -18,70 +18,70 @@ CREATE TABLE Tatuador (
 
 CREATE TABLE Cliente (
     id_cliente INTEGER PRIMARY KEY,
-    nome VARCHAR(30),
-    cpf VARCHAR(14),
-    email VARCHAR(30),
-    redeSocial VARCHAR(30)
+    nome VARCHAR(30) NOT NULL,
+    cpf VARCHAR(14) NOT NULL,
+    email VARCHAR(30) NOT NULL,
+    redeSocial VARCHAR(30) NOT NULL
 );
 
 CREATE TABLE Procedimento (
     id_procedimento INTEGER PRIMARY KEY,
-    data_agendamento DATE,
-    valor_cobrado DOUBLE,
-    descricao VARCHAR(100),
-    fk_Tatuador INTEGER,
-    fk_Cliente INTEGER,
-    fk_Agendador INTEGER
+    data_agendamento DATE NOT NULL,
+    valor_cobrado DOUBLE NOT NULL,
+    descricao VARCHAR(100) NOT NULL,
+    fk_Tatuador INTEGER NOT NULL,
+    fk_Cliente INTEGER NOT NULL,
+    fk_Agendador INTEGER NOT NULL
 );
 
 CREATE TABLE Material (
     id_material INTEGER PRIMARY KEY,
-    nome VARCHAR(30),
-    quantidade INTEGER,
-    valor_unidade DOUBLE,
-    data_compra DATE,
-    fk_Procedimento INTEGER,
-    fk_Comprador INTEGER
+    nome VARCHAR(30) NOT NULL,
+    quantidade INTEGER NOT NULL,
+    valor_unidade DOUBLE NOT NULL,
+    data_compra DATE NOT NULL,
+    fk_Procedimento INTEGER NOT NULL,
+    fk_Comprador INTEGER NOT NULL
 );
 
 CREATE TABLE ficha_anamnese (
     id INTEGER PRIMARY KEY,
-    assinatura BOOLEAN,
-    fk_cliente INTEGER,
+    assinatura BOOLEAN NOT NULL,
+    fk_cliente INTEGER NOT NULL,
     UNIQUE (id, assinatura)
 );
 
 CREATE TABLE doencas (
     id INTEGER PRIMARY KEY,
-    nome VARCHAR(50),
-    descricao VARCHAR(70),
-    fk_ficha_anamnese INTEGER
+    nome VARCHAR(50) NOT NULL,
+    descricao VARCHAR(70) NOT NULL,
+    fk_ficha_anamnese INTEGER NOT NULL
 );
 
 CREATE TABLE alergias (
     id INTEGER PRIMARY KEY,
-    nome VARCHAR(50),
-    descricao VARCHAR(70),
-    fk_ficha_anamnese INTEGER
+    nome VARCHAR(50) NOT NULL,
+    descricao VARCHAR(70) NOT NULL,
+    fk_ficha_anamnese INTEGER NOT NULL
 );
 
 CREATE TABLE medicacoes (
     id INTEGER PRIMARY KEY,
-    nome VARCHAR(50),
-    descricao VARCHAR(70),
-    fk_ficha_anamnese INTEGER
+    nome VARCHAR(50) NOT NULL,
+    descricao VARCHAR(70) NOT NULL,
+    fk_ficha_anamnese INTEGER NOT NULL
 );
 
 CREATE TABLE telefone_colaborador (
     id INTEGER PRIMARY KEY,
-    id_colaborador INTEGER,
-    numero VARCHAR(13)
+    id_colaborador INTEGER NOT NULL,
+    numero VARCHAR(13) NOT NULL
 );
 
 CREATE TABLE telefone_cliente (
     id INTEGER PRIMARY KEY,
-    fk_cliente_telefone INTEGER,
-    numero VARCHAR(13)
+    fk_cliente_telefone INTEGER NOT NULL,
+    numero VARCHAR(13) NOT NULL
 );
  
 ALTER TABLE Administrador ADD CONSTRAINT FK_Administrador_2
