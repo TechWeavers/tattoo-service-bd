@@ -5,7 +5,8 @@ CREATE TABLE Colaborador (
     nome VARCHAR(30) NOT NULL,
     cpf VARCHAR(14) NOT NULL,
     email VARCHAR(30) NOT NULL,
-    redeSocial VARCHAR(30) NOT NULL
+    redeSocial VARCHAR(30) NOT NULL,
+    tipo VARCHAR(30) NOT NULL CHECK(tipo IN 'Tatuador','Administrador') 
 );
 
 CREATE TABLE Administrador (
